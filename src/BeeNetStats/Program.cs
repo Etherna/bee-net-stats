@@ -58,7 +58,7 @@ namespace Etherna.BeeNetStats
 
                 for (int k = 0; k < iterations; k++)
                 {
-                    Console.WriteLine($"Testing data {TestFilesSize[i].Item2} size, compactLevel {compactLevel}, iteration {k}");
+                    Console.WriteLine($"Testing {TestFilesSize[i].Item2} random data, compactLevel {compactLevel}, iteration {k}");
                 
                     // Generate random file (in memory).
                     Console.Write("Generating random data...");
@@ -105,6 +105,7 @@ namespace Etherna.BeeNetStats
                 await writer.FlushAsync();
                 
                 Console.WriteLine();
+                Console.WriteLine($"  Completed test with {TestFilesSize[i].Item2} random data, compactLevel {compactLevel}");
                 Console.WriteLine($"  Average required depth: {avgDepth}");
                 Console.WriteLine($"  Average duration: {avgTime.TotalSeconds} seconds");
                 Console.WriteLine($"  Average missed optimistic hashing: {
