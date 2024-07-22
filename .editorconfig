@@ -15,3 +15,6 @@ indent_size = 2
 
 # C# files
 [*.cs]
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none    # .Net core doesn't require it

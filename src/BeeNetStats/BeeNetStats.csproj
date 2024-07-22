@@ -27,7 +27,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
+    <PackageReference Include="CsvHelper" Version="33.0.1" />
+    <PackageReference Include="GitVersion.MsBuild" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -40,6 +41,10 @@
   <ItemGroup>
     <None Include="..\..\COPYING" />
     <None Include="..\..\README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\bee-net\src\BeeNet.Util\BeeNet.Util.csproj" />
   </ItemGroup>
 
 </Project>

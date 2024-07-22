@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\publish-stable.yml = .github\workflows\publish-stable.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeeNet.Util", "..\bee-net\src\BeeNet.Util\BeeNet.Util.csproj", "{60D5E12C-5613-402F-AEC4-C909E6CD4E1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeeNet.Core", "..\bee-net\src\BeeNet.Core\BeeNet.Core.csproj", "{1C5B56B9-3900-4E6C-ADF6-AE1C55A55456}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +30,19 @@ Global
 		{9442FA8D-15BE-4607-AD14-529CC42D78FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9442FA8D-15BE-4607-AD14-529CC42D78FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9442FA8D-15BE-4607-AD14-529CC42D78FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60D5E12C-5613-402F-AEC4-C909E6CD4E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60D5E12C-5613-402F-AEC4-C909E6CD4E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60D5E12C-5613-402F-AEC4-C909E6CD4E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60D5E12C-5613-402F-AEC4-C909E6CD4E1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C5B56B9-3900-4E6C-ADF6-AE1C55A55456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C5B56B9-3900-4E6C-ADF6-AE1C55A55456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C5B56B9-3900-4E6C-ADF6-AE1C55A55456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C5B56B9-3900-4E6C-ADF6-AE1C55A55456}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9442FA8D-15BE-4607-AD14-529CC42D78FD} = {60825C69-121B-4400-BE06-F9BCD05CCCFF}
 		{37B4A6E1-B0C6-442B-8EEC-20FD1C0DA56C} = {ED69FB56-288B-4D88-9B78-01537FF9D2A5}
+		{60D5E12C-5613-402F-AEC4-C909E6CD4E1E} = {60825C69-121B-4400-BE06-F9BCD05CCCFF}
+		{1C5B56B9-3900-4E6C-ADF6-AE1C55A55456} = {60825C69-121B-4400-BE06-F9BCD05CCCFF}
 	EndGlobalSection
 EndGlobal
