@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeeNetStats", "src\BeeNetStats\BeeNetStats.csproj", "{9442FA8D-15BE-4607-AD14-529CC42D78FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{60825C69-121B-4400-BE06-F9BCD05CCCFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ED69FB56-288B-4D88-9B78-01537FF9D2A5}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+		.gitignore = .gitignore
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{37B4A6E1-B0C6-442B-8EEC-20FD1C0DA56C}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish-stable.yml = .github\workflows\publish-stable.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9442FA8D-15BE-4607-AD14-529CC42D78FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9442FA8D-15BE-4607-AD14-529CC42D78FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9442FA8D-15BE-4607-AD14-529CC42D78FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9442FA8D-15BE-4607-AD14-529CC42D78FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9442FA8D-15BE-4607-AD14-529CC42D78FD} = {60825C69-121B-4400-BE06-F9BCD05CCCFF}
+		{37B4A6E1-B0C6-442B-8EEC-20FD1C0DA56C} = {ED69FB56-288B-4D88-9B78-01537FF9D2A5}
+	EndGlobalSection
+EndGlobal
