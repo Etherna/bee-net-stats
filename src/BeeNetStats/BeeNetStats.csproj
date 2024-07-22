@@ -13,8 +13,6 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
 
-    <InvariantGlobalization>true</InvariantGlobalization>
-
     <AssemblyName>beenetstats</AssemblyName>
     <RepositoryUrl>https://github.com/Etherna/bee-net-stats</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

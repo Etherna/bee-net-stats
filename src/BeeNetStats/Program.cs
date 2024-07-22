@@ -33,7 +33,7 @@ namespace Etherna.BeeNetStats
         {
             // Run with several iteration if required to output stats.
             // Otherwise, run only once for demo.
-            var iterations = args.Length == 0 ? DefaultIterations : int.Parse(args[0]);
+            var iterations = args.Length == 0 ? DefaultIterations : int.Parse(args[0], CultureInfo.InvariantCulture);
             
             // Create CSV file.
             using StreamWriter writer = new StreamWriter(CsvOutputFileName);
@@ -69,7 +69,7 @@ namespace Etherna.BeeNetStats
                     var result = await RunTestAsync(data, compactLevel);
                     
                     // Report results.
-                    totalDepth += result.UploadResult.RequiredPostageBatchDepth;
+                    totalDepth += result.UploadResult.PostageStampIssuer.Buckets.RequiredPostageBatchDepth;
                     totalTime += result.Duration;
                     totalMissedOptimisticHashing += result.UploadResult.MissedOptimisticHashing;
                     
@@ -81,7 +81,8 @@ namespace Etherna.BeeNetStats
                     
                     // Print result.
                     Console.WriteLine($"Process took {result.Duration.TotalSeconds} seconds");
-                    Console.WriteLine($"Required depth: {result.UploadResult.RequiredPostageBatchDepth}");
+                    Console.WriteLine(
+                        $"Required depth: {result.UploadResult.PostageStampIssuer.Buckets.RequiredPostageBatchDepth}");
                     Console.WriteLine($"Missed optimistic hashing: {
                         result.UploadResult.MissedOptimisticHashing}");
                     Console.WriteLine($"Amount buckets per collision:");
