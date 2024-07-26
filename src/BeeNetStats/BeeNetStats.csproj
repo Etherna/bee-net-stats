@@ -13,6 +13,8 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
 
+    <InvariantGlobalization>true</InvariantGlobalization>
+
     <AssemblyName>beenetstats</AssemblyName>
     <RepositoryUrl>https://github.com/Etherna/bee-net-stats</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -25,6 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bee.Net.Util" Version="0.3.0" />
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="GitVersion.MsBuild" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -39,10 +42,6 @@
   <ItemGroup>
     <None Include="..\..\COPYING" />
     <None Include="..\..\README.md" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\bee-net\src\BeeNet.Util\BeeNet.Util.csproj" />
   </ItemGroup>
 
 </Project>
