@@ -131,8 +131,8 @@ namespace Etherna.BeeNetStats
         {   
             var start = DateTime.UtcNow;
         
-            var fileService = new CalculatorService();
-            var result = await fileService.EvaluateFileUploadAsync(
+            var chunkService = new ChunkService();
+            var result = await chunkService.EvaluateSingleFileUploadAsync(
                 data,
                 "text/plain",
                 "testFile.txt",
