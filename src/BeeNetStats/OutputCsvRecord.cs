@@ -14,7 +14,7 @@
 
 namespace Etherna.BeeNetStats
 {
-    public class OutputCsvRecord(
+    internal sealed class OutputCsvRecord(
         string sourceFileSize,
         ushort compactLevel,
         double avgDepth,

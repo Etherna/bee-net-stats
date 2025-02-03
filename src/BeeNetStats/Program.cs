@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Etherna.BeeNetStats
 {
-    public static class Program
+    internal static class Program
     {
         public const string CsvOutputFileName = "output.csv";
         public const int DefaultIterations = 10;
@@ -132,7 +132,7 @@ namespace Etherna.BeeNetStats
             var start = DateTime.UtcNow;
         
             var chunkService = new ChunkService();
-            var result = await chunkService.EvaluateSingleFileUploadAsync(
+            var result = await chunkService.UploadSingleFileAsync(
                 data,
                 "text/plain",
                 "testFile.txt",
