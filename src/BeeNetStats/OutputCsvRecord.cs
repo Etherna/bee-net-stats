@@ -16,11 +16,13 @@ namespace Etherna.BeeNetStats
 {
     internal sealed class OutputCsvRecord(
         string sourceFileSize,
+        long totalChunks,
         ushort compactLevel,
         double avgDepth,
         double avgSeconds)
     {
         public string SourceFileSize { get; } = sourceFileSize;
+        public long TotalChunks { get; } = totalChunks;
         public ushort CompactLevel { get; } = compactLevel;
         public double AvgDepth { get; } = avgDepth;
         public double AvgSeconds { get; } = avgSeconds;

@@ -27,7 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bee.Net.Core" Version="0.4.0-alpha.99" />
+    <PackageReference Include="Bee.Net.Core" Version="0.4.0-alpha.107" />
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="GitVersion.MsBuild" Version="6.1.0">
       <PrivateAssets>all</PrivateAssets>
