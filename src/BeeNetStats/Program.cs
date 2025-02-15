@@ -29,8 +29,8 @@ namespace Etherna.BeeNetStats
 
         public static readonly ushort[] TestCompactLevels =
         [
-            0, 1, 2, 5, 10, 20, 50, 100, 200, 500,
-            1000, 2000, 5000, 10000, 20000, 50000, ushort.MaxValue
+            0, 1, 2, 4, 8, 16, 32, 64, 128, 256,
+            512, 1024, 2048, 4096, 8192, 16384, 32768, 65535
         ];
         
         static async Task Main(string[] args)
