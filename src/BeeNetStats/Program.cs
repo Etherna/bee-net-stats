@@ -2,6 +2,7 @@
 using Etherna.BeeNet.Hashing;
 using Etherna.BeeNet.Models;
 using Etherna.BeeNet.Services;
+using Etherna.BeeNet.Stores;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -73,7 +74,8 @@ namespace Etherna.BeeNetStats
 
                             // Run test.
                             Console.Write("Chunking data with manifest...");
-                            var result = await RunTestAsync(data, compactLevel, (RedundancyLevel)redundancyLevel);
+                            var chunkStore = new MemoryChunkStore();
+                            var result = await RunTestAsync(data, compactLevel, (RedundancyLevel)redundancyLevel, chunkStore);
                             Console.WriteLine(" Done.");
 
                             // Report results.
@@ -143,7 +145,8 @@ namespace Etherna.BeeNetStats
         private static async Task<(UploadEvaluationResult UploadResult, TimeSpan Duration)> RunTestAsync(
             byte[] data,
             ushort compactLevel,
-            RedundancyLevel redundancyLevel)
+            RedundancyLevel redundancyLevel,
+            IChunkStore? chunkStore = null)
         {
             var start = DateTime.UtcNow;
 
@@ -153,6 +156,7 @@ namespace Etherna.BeeNetStats
                 "text/plain",
                 "testFile.txt",
                 new Hasher(),
+                chunkStore: chunkStore,
                 compactLevel: compactLevel,
                 redundancyLevel: redundancyLevel);
 
