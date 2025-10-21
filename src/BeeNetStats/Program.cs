@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using Etherna.BeeNet.Hashing;
+using Etherna.BeeNet.Models;
 using Etherna.BeeNet.Services;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,6 @@ namespace Etherna.BeeNetStats
             (1024 * 1024 * 100, "100MB"),
             (1024 * 1024 * 200, "200MB"),
             (1024 * 1024 * 500, "500MB"),
-            // (1024 * 1024 * 501,                       "501MB"),
-            // (1024 * 1024 * 502,                       "502MB"),
-            // (1024 * 1024 * 503,                       "503MB"),
-            // (1024 * 1024 * 504,                       "504MB"),
             (1024 * 1024 * 1024, "1GB"),
             (Math.Min(int.MaxValue, Array.MaxLength), "2GB")
         ];
@@ -53,85 +50,88 @@ namespace Etherna.BeeNetStats
             for (int i = 0; i < TestFilesSizes.Length; i++)
                 foreach (var compactLevel in TestCompactLevels)
                 {
-                    var fileSize = TestFilesSizes[i].Item1;
-
-                    var totalChunks = 0L;
-                    var totalDepth = 0;
-                    var totalTime = TimeSpan.Zero;
-                    var totalBucketsPerCollision = new List<int>();
-                    var totalMissedOptimisticHashing = 0L;
-
-                    for (int k = 0; k < iterations; k++)
+                    for (int redundancyLevel = (int)RedundancyLevel.None;
+                         redundancyLevel <= (int)RedundancyLevel.Paranoid;
+                         redundancyLevel++)
                     {
-                        Console.WriteLine($"Testing {TestFilesSizes[i].Item2} random data, compactLevel {compactLevel}, iteration {k}");
+                        var fileSize = TestFilesSizes[i].Item1;
 
-                        // Generate random file (in memory).
-                        Console.Write("Generating random data...");
-                        var data = RandomNumberGenerator.GetBytes(fileSize);
-                        Console.WriteLine(" Done.");
+                        var totalChunks = 0L;
+                        var totalDepth = 0;
+                        var totalTime = TimeSpan.Zero;
+                        var totalBucketsPerCollision = new List<int>();
+                        var totalMissedOptimisticHashing = 0L;
 
-                        // Run test.
-                        Console.Write("Chunking data with manifest...");
-                        var result = await RunTestAsync(data, compactLevel);
-                        Console.WriteLine(" Done.");
+                        for (var k = 0; k < iterations; k++)
+                        {
+                            Console.WriteLine($"Testing {TestFilesSizes[i].Item2} random data, compactLevel {compactLevel}, redundancyLevel {(RedundancyLevel)redundancyLevel}, iteration {k}");
 
-                        // Report results.
-                        if (totalChunks != 0 &&
-                            totalChunks != result.UploadResult.PostageStampIssuer.Buckets.TotalChunks)
-                            throw new InvalidOperationException("Total chunks has unexpected value");
-                        totalChunks = result.UploadResult.PostageStampIssuer.Buckets.TotalChunks;
-                        totalDepth += result.UploadResult.PostageStampIssuer.Buckets.RequiredPostageBatchDepth;
-                        totalTime += result.Duration;
-                        totalMissedOptimisticHashing += result.UploadResult.MissedOptimisticHashing;
+                            // Generate random file (in memory).
+                            Console.Write("Generating random data...");
+                            var data = RandomNumberGenerator.GetBytes(fileSize);
+                            Console.WriteLine(" Done.");
 
-                        var resultBucketsPerCollision = result.UploadResult.PostageStampIssuer.Buckets.CountBucketsByCollisions();
-                        while (totalBucketsPerCollision.Count < resultBucketsPerCollision.Length)
-                            totalBucketsPerCollision.Add(0);
-                        for (int l = 0; l < resultBucketsPerCollision.Length; l++)
-                            totalBucketsPerCollision[l] += resultBucketsPerCollision[l];
+                            // Run test.
+                            Console.Write("Chunking data with manifest...");
+                            var result = await RunTestAsync(data, compactLevel, (RedundancyLevel)redundancyLevel);
+                            Console.WriteLine(" Done.");
 
-                        // Print result.
-                        Console.WriteLine($"Chunking took {result.Duration.TotalSeconds} seconds");
-                        Console.WriteLine(
-                            $"Required depth: {result.UploadResult.PostageStampIssuer.Buckets.RequiredPostageBatchDepth}");
-                        Console.WriteLine($"Missed optimistic hashing: {
-                            result.UploadResult.MissedOptimisticHashing}");
-                        Console.WriteLine($"Buckets by total collisions:");
-                        for (int l = 0; l < resultBucketsPerCollision.Length; l++)
-                            Console.WriteLine($"  [{l}] = {resultBucketsPerCollision[l]}");
-                        Console.WriteLine($"Total chunks: {result.UploadResult.PostageStampIssuer.Buckets.TotalChunks}");
+                            // Report results.
+                            totalChunks = result.UploadResult.PostageStampIssuer.Buckets.TotalChunks;
+                            totalDepth += result.UploadResult.PostageStampIssuer.Buckets.RequiredPostageBatchDepth;
+                            totalTime += result.Duration;
+                            totalMissedOptimisticHashing += result.UploadResult.MissedOptimisticHashing;
 
-                        Console.WriteLine("-----");
+                            var resultBucketsPerCollision = result.UploadResult.PostageStampIssuer.Buckets.CountBucketsByCollisions();
+                            while (totalBucketsPerCollision.Count < resultBucketsPerCollision.Length)
+                                totalBucketsPerCollision.Add(0);
+                            for (int l = 0; l < resultBucketsPerCollision.Length; l++)
+                                totalBucketsPerCollision[l] += resultBucketsPerCollision[l];
+
+                            // Print result.
+                            Console.WriteLine($"Chunking took {result.Duration.TotalSeconds} seconds");
+                            Console.WriteLine(
+                                $"Required depth: {result.UploadResult.PostageStampIssuer.Buckets.RequiredPostageBatchDepth}");
+                            Console.WriteLine($"Missed optimistic hashing: {
+                                result.UploadResult.MissedOptimisticHashing}");
+                            Console.WriteLine($"Buckets by total collisions:");
+                            for (int l = 0; l < resultBucketsPerCollision.Length; l++)
+                                Console.WriteLine($"  [{l}] = {resultBucketsPerCollision[l]}");
+                            Console.WriteLine($"Total chunks: {result.UploadResult.PostageStampIssuer.Buckets.TotalChunks}");
+
+                            Console.WriteLine("-----");
+                        }
+
+                        var avgDepth = (double)totalDepth / iterations;
+                        var avgTime = totalTime / iterations;
+
+                        // Write record to CSV.
+                        csv.WriteRecord(new OutputCsvRecord(
+                            avgDepth: avgDepth,
+                            avgSeconds: avgTime.TotalSeconds,
+                            totalChunks: totalChunks,
+                            compactLevel: compactLevel,
+                            redundancyLevel: (RedundancyLevel)redundancyLevel,
+                            sourceFileSize: TestFilesSizes[i].Item2));
+                        await csv.NextRecordAsync();
+                        await writer.FlushAsync();
+
+                        Console.WriteLine();
+                        Console.WriteLine($"  Completed test with {TestFilesSizes[i].Item2} random data, compactLevel {compactLevel}, redundancyLevel {(RedundancyLevel)redundancyLevel}");
+                        Console.WriteLine($"  Average required depth: {avgDepth}");
+                        Console.WriteLine($"  Average duration: {avgTime.TotalSeconds} seconds");
+                        Console.WriteLine($"  Average missed optimistic hashing: {
+                            (double)totalMissedOptimisticHashing / iterations}");
+                        Console.WriteLine("  Average amount buckets per collision:");
+                        for (int l = 0; l < totalBucketsPerCollision.Count; l++)
+                            Console.WriteLine($"    [{l}] = {(double)totalBucketsPerCollision[l] / iterations}");
+                        Console.WriteLine($"  Total chunks: {totalChunks}");
+
+                        Console.WriteLine();
+                        Console.WriteLine("*************");
+                        Console.WriteLine();
+                        Console.WriteLine();
                     }
-
-                    var avgDepth = (double)totalDepth / iterations;
-                    var avgTime = totalTime / iterations;
-
-                    // Write record to CSV.
-                    csv.WriteRecord(new OutputCsvRecord(
-                        avgDepth: avgDepth,
-                        avgSeconds: avgTime.TotalSeconds,
-                        totalChunks: totalChunks,
-                        compactLevel: compactLevel,
-                        sourceFileSize: TestFilesSizes[i].Item2));
-                    await csv.NextRecordAsync();
-                    await writer.FlushAsync();
-
-                    Console.WriteLine();
-                    Console.WriteLine($"  Completed test with {TestFilesSizes[i].Item2} random data, compactLevel {compactLevel}");
-                    Console.WriteLine($"  Average required depth: {avgDepth}");
-                    Console.WriteLine($"  Average duration: {avgTime.TotalSeconds} seconds");
-                    Console.WriteLine($"  Average missed optimistic hashing: {
-                        (double)totalMissedOptimisticHashing / iterations}");
-                    Console.WriteLine("  Average amount buckets per collision:");
-                    for (int l = 0; l < totalBucketsPerCollision.Count; l++)
-                        Console.WriteLine($"    [{l}] = {(double)totalBucketsPerCollision[l] / iterations}");
-                    Console.WriteLine($"  Total chunks: {totalChunks}");
-
-                    Console.WriteLine();
-                    Console.WriteLine("*************");
-                    Console.WriteLine();
-                    Console.WriteLine();
                 }
 
             // Print test end.
@@ -142,7 +142,8 @@ namespace Etherna.BeeNetStats
 
         private static async Task<(UploadEvaluationResult UploadResult, TimeSpan Duration)> RunTestAsync(
             byte[] data,
-            ushort compactLevel)
+            ushort compactLevel,
+            RedundancyLevel redundancyLevel)
         {
             var start = DateTime.UtcNow;
 
@@ -152,7 +153,8 @@ namespace Etherna.BeeNetStats
                 "text/plain",
                 "testFile.txt",
                 new Hasher(),
-                compactLevel: compactLevel);
+                compactLevel: compactLevel,
+                redundancyLevel: redundancyLevel);
 
             var duration = DateTime.UtcNow - start;
 

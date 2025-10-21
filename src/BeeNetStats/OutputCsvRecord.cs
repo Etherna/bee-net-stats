@@ -12,18 +12,22 @@
 // You should have received a copy of the GNU Affero General Public License along with Bee.Net Stats.
 // If not, see <https://www.gnu.org/licenses/>.
 
+using Etherna.BeeNet.Models;
+
 namespace Etherna.BeeNetStats
 {
     internal sealed class OutputCsvRecord(
         string sourceFileSize,
         long totalChunks,
         ushort compactLevel,
+        RedundancyLevel redundancyLevel,
         double avgDepth,
         double avgSeconds)
     {
         public string SourceFileSize { get; } = sourceFileSize;
         public long TotalChunks { get; } = totalChunks;
         public ushort CompactLevel { get; } = compactLevel;
+        public RedundancyLevel RedundancyLevel { get; } = redundancyLevel;
         public double AvgDepth { get; } = avgDepth;
         public double AvgSeconds { get; } = avgSeconds;
     }
