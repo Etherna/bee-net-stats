@@ -1,8 +1,8 @@
 ﻿using CsvHelper;
-using Etherna.BeeNet.Hashing;
-using Etherna.BeeNet.Models;
-using Etherna.BeeNet.Services;
-using Etherna.BeeNet.Stores;
+using Etherna.SwarmSdk.Hashing;
+using Etherna.SwarmSdk.Models;
+using Etherna.SwarmSdk.Services;
+using Etherna.SwarmSdk.Stores;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
